@@ -11,14 +11,14 @@ const SPOTIFY_LOGIN_URL = ``
   + `https://accounts.spotify.com/authorize?`
   + `client_id=${SPOTIFY_CLIENT_ID}`
   + `&response_type=token`
-  + `&redirect_uri=${encodeURIComponent('http://localhost:8080/spotify-login-callback/')}`
+  + `&redirect_uri=${encodeURIComponent('http://localhost:8080/')}`
   + `&scope=${SPOTIFY_SCOPES}`;
 
 export default class Login extends React.Component {
   render() {
     return (
       <div className="login-container">
-        <h1>Login</h1>
+        <h1>Login {this.props.user.name}</h1>
         <hr />
         <a href={SPOTIFY_LOGIN_URL}
           className="btn btn-primary"
