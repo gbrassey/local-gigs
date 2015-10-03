@@ -1,7 +1,7 @@
 // Example file. Copy this to your project. Change then names of the referenced files or comment
 // them out. Convention is to name sass partials to start with an '_'
 module.exports = {
-  verbose: true, // Set to true to show diagnostic information
+  verbose: false, // Set to true to show diagnostic information
 
   // IMPORTANT: Set next two configuration so you can customize
   // bootstrapCustomizations: gets loaded before bootstrap so you can configure the variables used

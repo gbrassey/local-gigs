@@ -20,9 +20,6 @@ module.exports = {
         test: /\.html$/,
         loader: "file?name=[name].[ext]"
       }, {
-        test: /bootstrap\/js\//,
-        loader: "imports?jQuery=jquery"
-      }, {
         test: /\.(scss|css)$/,
         loaders: ["style", "css", "sass"]
       }, {
