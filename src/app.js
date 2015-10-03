@@ -3,9 +3,21 @@ require('bootstrap-sass!../bootstrap-sass.config.js');
 import './app.scss';
 
 import React from 'react';
-import Greeting from './components/greeting';
+import Login from './components/login';
+
+class App extends React.Component {
+  render() {
+    return (
+      <div className="container">
+        <div className="col-sm-12">
+          <Login />
+        </div>
+      </div>
+    );
+  }
+}
 
 React.render(
-  <Greeting name="World" />,
+  <App />,
   document.getElementById('mount-node')
 );
