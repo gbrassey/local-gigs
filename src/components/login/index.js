@@ -22,8 +22,7 @@ export default class Login extends React.Component {
         <hr />
         <a href={SPOTIFY_LOGIN_URL}
           className="btn btn-primary"
-          role="button"
-          target="_blank">Login with Spotify</a>
+          role="button">Login with Spotify</a>
       </div>
     );
   }
