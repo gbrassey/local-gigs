@@ -6,10 +6,10 @@ const UserActions = {
   /**
    * @param  {string} text
    */
-  create(userName) {
+  create(access) {
     AppDispatcher.dispatch({
       actionType: UserConstants.USER_CREATE,
-      userName: userName,
+      access: access,
     });
   },
 

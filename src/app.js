@@ -4,13 +4,13 @@ import './app.scss';
 
 import React from 'react';
 import Login from './components/login';
+import Dashboard from './components/dashboard';
 import UserStore from './stores/UserStore';
 import UserActions from './actions/UserActions';
+import { compileAccess } from './libs/urlInterpreter';
 
 function getUser() {
-  return {
-    user: UserStore.getUser(),
-  };
+  return UserStore.getUser();
 }
 
 class App extends React.Component {
@@ -23,6 +23,11 @@ class App extends React.Component {
 
   componentDidMount() {
     UserStore.addChangeListener(this._onChange.bind(this));
+
+    const access = this.props.access;
+    if (access.accessToken) {
+      UserActions.create(access);
+    }
   }
 
   componentWillUnmount() {
@@ -30,26 +35,29 @@ class App extends React.Component {
   }
 
   _onChange() {
-    this.setState(getUser());
-  }
-
-  _test() {
-    UserActions.create('timmy');
+    this.setState({
+      user: getUser(),
+    });
   }
 
   render() {
+    const markup = (Object.keys(this.state.user).length) ? (
+        <Dashboard user={this.state.user} /> ) : <Login />;
     return (
       <div className="container">
         <div className="col-sm-12">
-          <Login user={this.state.user} />
+          {markup}
         </div>
-        <button onClick={this._test}>Click Me</button>
       </div>
     );
   }
 }
 
+App.propTypes = {
+  access: React.PropTypes.object,
+};
+
 React.render(
-  <App />,
+  <App access={compileAccess()} />,
   document.getElementById('mount-node')
 );

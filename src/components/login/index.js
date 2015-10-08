@@ -1,14 +1,15 @@
 import React from 'react';
 import './index.scss';
 
-const SPOTIFY_CLIENT_ID = '1e0ad7166e5c4440848c13c4218eaeb3';
+import { SPOTIFY_CLIENT_ID, SPOTIFY_AUTH_URL } from '../../constants/SpotifyConstants';
+
 const SPOTIFY_SCOPES = [
   'playlist-read-private',
   'user-library-read',
   'playlist-read-collaborative',
 ].join(' ');
 const SPOTIFY_LOGIN_URL = ``
-  + `https://accounts.spotify.com/authorize?`
+  + SPOTIFY_AUTH_URL
   + `client_id=${SPOTIFY_CLIENT_ID}`
   + `&response_type=token`
   + `&redirect_uri=${encodeURIComponent('http://localhost:8080/')}`
@@ -18,7 +19,7 @@ export default class Login extends React.Component {
   render() {
     return (
       <div className="login-container">
-        <h1>Login {this.props.user.name}</h1>
+        <h1>Login</h1>
         <hr />
         <a href={SPOTIFY_LOGIN_URL}
           className="btn btn-primary"

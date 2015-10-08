@@ -1,31 +1,31 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import EventEmitter from 'events';
 import UserConstants from '../constants/UserConstants';
+import { SPOTIFY_USER_URL } from '../constants/SpotifyConstants';
 
 const CHANGE_EVENT = 'change';
 
 let user = {};
 
-function create(name) {
-  user = {
-    name: name,
-    complete: false,
-  };
-}
-
 function destroy() {
   user = {};
 }
 
-class UserStore extends EventEmitter {
-  constructor() {
-    super();
-  }
+function create(access, callback) {
+  jQuery.ajax({
+    url: SPOTIFY_USER_URL,
+    headers: {
+      'Authorization': access.tokenType + ' ' + access.accessToken,
+    },
+    success(data) {
+      user = data;
+      callback();
+    },
+  });
+}
 
-  /**
-   * Get the entire collection of TODOs.
-   * @return {object}
-   */
+class UserStore extends EventEmitter {
+
   getUser() {
     return user;
   }
@@ -54,10 +54,9 @@ const userStore = new UserStore();
 userStore.dispatcherIndex = AppDispatcher.register((action) => {
   switch (action.actionType) {
   case UserConstants.USER_CREATE:
-    const userName = action.userName.trim();
-    if (userName !== '') {
-      create(userName);
-      userStore.emitChange();
+    const access = action.access;
+    if (access !== '') {
+      create(access, userStore.emitChange.bind(userStore));
     }
     break;
 
