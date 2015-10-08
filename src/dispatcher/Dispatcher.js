@@ -1,7 +1,6 @@
 import assign from'object-assign';
 
 const _callbacks = [];
-let _promises = [];
 
 const Dispatcher = function noop() {};
 Dispatcher.prototype = assign({}, Dispatcher.prototype, {
@@ -24,7 +23,7 @@ Dispatcher.prototype = assign({}, Dispatcher.prototype, {
     // First create array of promises for callbacks to reference.
     const resolves = [];
     const rejects = [];
-    _promises = _callbacks.map(function mapCallbacks(_p, index) {
+    _callbacks.map(function mapCallbacks(_p, index) {
       return new Promise(function registerPromise(resolve, reject) {
         resolves[index] = resolve;
         rejects[index] = reject;
@@ -40,7 +39,6 @@ Dispatcher.prototype = assign({}, Dispatcher.prototype, {
         rejects[index](new Error('Dispatcher callback unsuccessful'));
       });
     });
-    _promises = [];
   },
 });
 

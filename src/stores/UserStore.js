@@ -56,7 +56,7 @@ userStore.dispatcherIndex = AppDispatcher.register((action) => {
   case UserConstants.USER_CREATE:
     const userName = action.userName.trim();
     if (userName !== '') {
-      create(name);
+      create(userName);
       userStore.emitChange();
     }
     break;
