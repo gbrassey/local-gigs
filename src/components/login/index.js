@@ -7,6 +7,7 @@ const SPOTIFY_SCOPES = [
   'playlist-read-private',
   'user-library-read',
   'playlist-read-collaborative',
+  'user-follow-read',
 ].join(' ');
 const SPOTIFY_LOGIN_URL = ``
   + SPOTIFY_AUTH_URL

@@ -5,4 +5,5 @@ export default {
   SPOTIFY_CLIENT_ID: SPOTIFY_CLIENT_ID,
   SPOTIFY_AUTH_URL: 'https://accounts.spotify.com/authorize?',
   SPOTIFY_USER_URL: SPOTIFY_API_URL + 'v1/me?',
+  SPOTIFY_ARTISTS_URL: SPOTIFY_API_URL + 'v1/me/following?type=artist',
 };

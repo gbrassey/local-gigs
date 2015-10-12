@@ -1,27 +1,46 @@
 import AppDispatcher from '../dispatcher/AppDispatcher';
 import EventEmitter from 'events';
 import UserConstants from '../constants/UserConstants';
-import { SPOTIFY_USER_URL } from '../constants/SpotifyConstants';
+import { SPOTIFY_USER_URL, SPOTIFY_ARTISTS_URL } from '../constants/SpotifyConstants';
 
 const CHANGE_EVENT = 'change';
 
 let user = {};
+let userAccess = {};
 
 function destroy() {
   user = {};
 }
 
 function create(access, callback) {
+  userAccess = access;
   jQuery.ajax({
     url: SPOTIFY_USER_URL,
     headers: {
-      'Authorization': access.tokenType + ' ' + access.accessToken,
+      'Authorization': userAccess.tokenType + ' ' + userAccess.accessToken,
     },
     success(data) {
       user = data;
       callback();
     },
   });
+}
+
+function getArtists(callback) {
+  if (userAccess) {
+    jQuery.ajax({
+      url: SPOTIFY_ARTISTS_URL,
+      headers: {
+        'Authorization': userAccess.tokenType + ' ' + userAccess.accessToken,
+      },
+      success(data) {
+        user.artists = data.artists.items;
+        callback();
+      },
+    });
+  } else {
+    throw new Error('no user token');
+  }
 }
 
 class UserStore extends EventEmitter {
@@ -56,7 +75,9 @@ userStore.dispatcherIndex = AppDispatcher.register((action) => {
   case UserConstants.USER_CREATE:
     const access = action.access;
     if (access !== '') {
-      create(access, userStore.emitChange.bind(userStore));
+      create(access, () => {
+        getArtists(userStore.emitChange.bind(userStore));
+      });
     }
     break;
 
